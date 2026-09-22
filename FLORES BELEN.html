@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Belen</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #fff9c4,
+                #ffe082,
+                #fff3b0
+            );
+            overflow: hidden;
+        }
+
+        .contenedor {
+            text-align: center;
+            padding: 40px 25px;
+        }
+
+        .flor {
+            font-size: 90px;
+            animation: flotar 3s ease-in-out infinite;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 48px;
+            color: #6b4f00;
+            animation: aparecer 2s ease;
+        }
+
+        p {
+            margin-top: 15px;
+            font-size: 20px;
+            color: #795548;
+            animation: aparecer 2.5s ease;
+        }
+
+        button {
+            margin-top: 35px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #fbc02d;
+            color: #5d4300;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.08);
+            background: #f9a825;
+        }
+
+        @keyframes flotar {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sorpresa {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(
+                135deg,
+                #fff9c4,
+                #ffe082,
+                #fff3b0
+            );
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sorpresa.mostrar {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .semilla {
+            font-size: 70px;
+            animation: crecer 3s ease forwards;
+        }
+
+        .sorpresa h2 {
+            margin-top: 20px;
+            font-size: 28px;
+            color: #6b4f00;
+        }
+
+        .sorpresa p {
+            color: #795548;
+        }
+
+        .ramo {
+            position: relative;
+            width: 320px;
+            height: 300px;
+            margin-top: 10px;
+            opacity: 0;
+            animation: revelarRamo 0.1s 3s forwards;
+        }
+
+        @keyframes revelarRamo {
+            to { opacity: 1; }
+        }
+
+        @keyframes crecer {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* TALLOS */
+        .tallo {
+            position: absolute;
+            width: 5px;
+            height: 160px;
+            background: #4f7f3a;
+            bottom: 30px;
+            left: 50%;
+            border-radius: 3px;
+            z-index: 1;
+            transform-origin: bottom center;
+            opacity: 0;
+            animation: nacerTallo 1s ease forwards;
+        }
+
+        .tallo1 { --rot: -15deg; animation-delay: 3.0s; }
+        .tallo2 { --rot: -5deg;  animation-delay: 3.2s; }
+        .tallo3 { --rot: 5deg;   animation-delay: 3.4s; }
+        .tallo4 { --rot: 15deg;  animation-delay: 3.6s; }
+
+        @keyframes nacerTallo {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) rotate(var(--rot)) scaleY(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) rotate(var(--rot)) scaleY(1);
+            }
+        }
+
+        /* HOJAS */
+        .hoja {
+            position: absolute;
+            width: 11px;
+            height: 35px;
+            background: #5c8e43;
+            border-radius: 50% 50% 20% 20%;
+            z-index: 2;
+            transform-origin: bottom center;
+            opacity: 0;
+            animation: nacerHoja 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .hoja1 { bottom: 125px; left: 125px; --rot: -42deg; animation-delay: 3.7s; }
+        .hoja2 { bottom: 95px; left: 145px; --rot: -20deg; animation-delay: 3.9s; }
+        .hoja3 { bottom: 95px; right: 145px; --rot: 20deg; animation-delay: 4.1s; }
+        .hoja4 { bottom: 125px; right: 125px; --rot: 42deg; animation-delay: 4.3s; }
+
+        @keyframes nacerHoja {
+            0% {
+                opacity: 0;
+                transform: rotate(var(--rot)) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: rotate(var(--rot)) scale(1);
+            }
+        }
+
+        /* TULIPANES */
+        .florReal {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: none;
+            background: transparent !important;
+            box-shadow: none !important;
+            cursor: pointer;
+            padding: 0;
+            z-index: 5;
+            opacity: 0;
+            animation: nacerTulipan 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .flor1 { left: 62px; top: 35px; animation-delay: 3.8s; }
+        .flor2 { left: 102px; top: 25px; animation-delay: 4.0s; }
+        .flor3 { right: 102px; top: 25px; animation-delay: 4.2s; }
+        .flor4 { right: 62px; top: 35px; animation-delay: 4.4s; }
+
+        @keyframes nacerTulipan {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.3);
+            }
+            70% {
+                opacity: 1;
+                transform: translateY(-8px) scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .petalo {
+            position: absolute;
+            width: 30px;
+            height: 48px;
+            left: 25px;
+            top: 10px;
+            border-radius: 50% 50% 40% 40%;
+            transform-origin: bottom center;
+        }
+
+        .p3 { transform: translateY(-4px) scale(1.02); background: #e6b800; z-index: 1; }
+        .p1 { background: #ffd54f; transform: rotate(-22deg); z-index: 2; }
+        .p2 { background: #ffd54f; transform: rotate(22deg); z-index: 2; }
+
+        .florReal:hover {
+            transform: scale(1.18) !important;
+            transition: transform 0.3s ease;
+        }
+
+        #mensajeFlor {
+            margin-top: 5px;
+            padding: 10px;
+            max-width: 420px;
+            min-height: 50px;
+            color: #6b4f00;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* ESTILOS DE LA SEGUNDA ESCENA (CON EL ÁLBUM ADentro) */
+        .segundaEscena {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff8c9, #ffe082);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease;
+            z-index: 9999;
+            overflow-y: auto;
+        }
+
+        .segundaEscena.mostrar {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .segundaEscena h2 {
+            font-size: 32px;
+            color: #6b4f00;
+            margin-bottom: 15px;
+        }
+
+        .segundaEscena p {
+            font-size: 19px;
+            color: #5c4a16;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .botonContinuar {
+            margin-top: 25px;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 30px;
+            background: #e8b923;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .botonContinuar:hover {
+            transform: scale(1.05);
+        }
+
+        .album {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            max-width: 1000px;
+        }
+
+        .foto {
+            width: 220px;
+            background: white;
+            padding: 12px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .foto:hover {
+            transform: translateY(-8px) rotate(1deg);
+        }
+
+        .foto img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .foto p {
+            font-size: 15px;
+            margin-top: 10px;
+            color: #6b4f00;
+        }
+
+        .cartaFinal {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto 30px;
+            padding: 30px;
+            box-sizing: border-box;
+            background: #fffdf2;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            text-align: left;
+        }
+
+        .cartaFinal h2 {
+            text-align: center;
+            color: #6b4f00;
+            margin-bottom: 25px;
+        }
+
+        #textoCarta {
+            color: #5c4a16;
+            font-size: 18px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        .firma {
+            margin-top: 30px;
+            text-align: right;
+            color: #6b4f00;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .finalCarta {
+            text-align: center;
+            margin-top: 35px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .finalCarta.mostrar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .finalCarta p {
+            color: #6b4f00;
+            font-size: 18px;
+        }
+
+        .finalCarta button {
+            margin-top: 10px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 25px;
+            background: #e8b923;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .cartaFinal {
+                width: 90%;
+                padding: 22px;
+                margin-top: 35px;
+            }
+
+            #textoCarta {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+
+            .segundaEscena {
+                overflow-y: auto;
+                justify-content: flex-start;
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+
+            .segundaEscena h2 {
+                font-size: 27px;
+                margin-top: 10px;
+            }
+
+            .segundaEscena > p {
+                font-size: 17px;
+                margin: 5px 15px 15px;
+            }
+
+            .album {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+            }
+
+            .foto {
+                width: 80%;
+                max-width: 300px;
+            }
+
+            .foto img {
+                height: 260px;
+            }
+
+            .foto p {
+                font-size: 15px;
+            }
+        }
+
+        .corazones {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .corazones span {
+            position: absolute;
+            bottom: -50px;
+            font-size: 25px;
+            opacity: 0.7;
+            animation: flotarCorazon 7s linear infinite;
+        }
+
+        .corazones span:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .corazones span:nth-child(2) { left: 30%; animation-delay: 2s; }
+        .corazones span:nth-child(3) { left: 50%; animation-delay: 4s; }
+        .corazones span:nth-child(4) { left: 70%; animation-delay: 1s; }
+        .corazones span:nth-child(5) { left: 85%; animation-delay: 3s; }
+        .corazones span:nth-child(6) { left: 95%; animation-delay: 5s; }
+
+        @keyframes flotarCorazon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
+            }
+            85% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        .botonMusica {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.9);
+            color: #6b4f00;
+            font-size: 15px;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <audio id="musica" loop>
+    <source src="musica/cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="botonMusica" class="botonMusica" onclick="controlarMusica()">
+        🎵 Música
+    </button>
+
+    <div class="contenedor">
+        <div class="flor">💖</div>
+        <h1>💛 Para Belen 💛</h1>
+        <p>Tengo una pequeña sorpresa para La Reina de mi Corazón...</p>
+        <button id="botonSorpresa">🌷 Abrir mi sorpresa 🌷</button>
+    </div>
+
+    <!-- Primera Pantalla de la Sorpresa (El Ramo) -->
+    <div id="sorpresa" class="sorpresa">
+        <div class="semilla">🌱</div>
+        <h2>Espera un momento 💛</h2>
+        <p>Nació un ramo especialmente para usted.</p>
+
+        <div class="ramo">
+            <div class="tallo tallo1"></div>
+            <div class="tallo tallo2"></div>
+            <div class="tallo tallo3"></div>
+            <div class="tallo tallo4"></div>
+        
+            <div class="hoja hoja1"></div>
+            <div class="hoja hoja2"></div>
+            <div class="hoja hoja3"></div>
+            <div class="hoja hoja4"></div>
+
+            <button class="florReal flor1" data-mensaje="Quererla es lo más fácil que puedo hacer en esta vida y es el mayor placer que puedo tener. 💛">
+                <span class="petalo p3"></span>
+                <span class="petalo p1"></span>
+                <span class="petalo p2"></span>
+            </button>
+
+            <button class="florReal flor2" data-mensaje="La distancia jamás me impedirá ser detallista con usted para mi cualquier momento es bueno para hacerla feliz. 🥹">
+                <span class="petalo p3"></span>
+                <span class="petalo p1"></span>
+                <span class="petalo p2"></span>
+            </button>
+
+            <button class="florReal flor3" data-mensaje="En esta vida me siento afortunado porque tuve la suerte de encontrarme con usted. 🍀">
+                <span class="petalo p3"></span>
+                <span class="petalo p1"></span>
+                <span class="petalo p2"></span>
+            </button>
+
+            <button class="florReal flor4" data-mensaje="Cada momento juntos es un recuerdo que atesorare cada día de mi vida gracias por hacerme tan feliz. ❤️">
+                <span class="petalo p3"></span>
+                <span class="petalo p1"></span>
+                <span class="petalo p2"></span>
+            </button>
+        </div>
+
+        <div id="mensajeFlor">🌷 Toca una flor 🌷</div>
+
+        <button class="botonContinuar" onclick="continuarSorpresa()">
+            Hay algo más... 💌
+        </button>
+    </div>
+
+    <!-- Segunda Escena (Incluye el título, mensaje y el álbum de fotos) -->
+    <div id="segundaEscena" class="segundaEscena">
+        <h2>Y estas fotos son un lindo recuerdo de nosotros Corazón 🌷</h2>
+        <p>
+            Quería hacer algo diferente para recordarle
+            lo especial que es para mí. 💛
+        </p>
+
+        <div class="album">
+            <div class="foto">
+                <img src="fotos/foto1.jpeg" alt="Nuestro recuerdo">
+                <p>Un recuerdo del mejor día de mi vida. 💛</p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto2.jpeg" alt="Nuestro recuerdo">
+                <p>Su belleza no entiende de fronteras. ❤️</p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto3.jpeg" alt="Nuestro recuerdo">
+                <p>Aun recuerdo esa noche y lo guapa que se veía. 😍 </p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto4.jpeg" alt="Nuestro recuerdo">
+                <p>Las mejores fotos son las que no nos esperamos. 👀</p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto5.jpeg" alt="Nuestro recuerdo">
+                <p>A su lado la felicidad florece más y más. 💐</p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto6.jpeg" alt="Nuestro recuerdo">
+                <p>Su sonrisa tan bella que hace que me derrita por usted. 😁</p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto7.jpeg" alt="Nuestro recuerdo">
+                <p>Con usted mi niño interior se siente feliz y tranquilo. ❤️</p>
+            </div>
+
+            <div class="foto">
+                <img src="fotos/foto8.jpeg" alt="Nuestro recuerdo">
+                <p>Las flores son un pequeño homenaje a su hermosura. 🌹</p>
+            </div>
+            
+            <div class="cartaFinal">
+                <h2>Para Usted, Corazón 💌</h2>
+                <p id="textoCarta"></p>
+                <p class="firma">
+                    Con cariño,<br>
+                    Jorge 💛
+                </p>
+                
+                <div id="finalCarta" class="finalCarta">
+                    <p>
+                        Estas flores amarillas son para ti, Belen 🌷💛
+                    </p>
+                    <button onclick="volverFlores()">
+                        Volver a ver mis flores 🌷
+                    </button>
+                    
+                    <div class="corazones">
+                        <span>💛</span>
+                        <span>💛</span>
+                        <span>🌷</span>
+                        <span>💛</span>
+                        <span>🌷</span>
+                        <span>💛</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="botonContinuar" onclick="location.reload()" style="margin: 40px 0;">
+            Volver a empezar 🌸
+        </button>
+    </div>
+
+    <script>
+        const boton = document.getElementById("botonSorpresa");
+        const sorpresa = document.getElementById("sorpresa");
+        const musica = document.getElementById("musica");
+        const botonMusica = document.getElementById("botonMusica");
+
+        // Al hacer clic en "Abrir mi sorpresa", activamos la música automáticamente
+        boton.addEventListener("click", function() {
+            sorpresa.classList.add("mostrar");
+            
+            // Intenta reproducir la música
+            musica.play().then(() => {
+                botonMusica.textContent = "🔊 Pausar";
+            }).catch(error => {
+                console.log("El navegador bloqueó la reproducción automática, usa el botón flotante:", error);
+            });
+        });
+
+        const flores = document.querySelectorAll(".florReal");
+        const mensajeFlor = document.getElementById("mensajeFlor");
+
+        flores.forEach(function(flor) {
+            flor.addEventListener("click", function() {
+                mensajeFlor.textContent = flor.dataset.mensaje;
+            });
+        });
+        
+        function continuarSorpresa() {
+            const segundaEscena = document.getElementById("segundaEscena");
+            segundaEscena.classList.add("mostrar");
+            setTimeout(() => {
+                escribirCarta();
+            }, 1000);
+        }
+
+        const textoCarta = `Quiero darte las gracias por siempre apoyarme, escucharme y motivarme.
+
+Muchas veces siento que me falta fuerza y usted es quien me ayuda a continuar, a seguir esforzándome e incluso a encontrar ese apoyo extra que necesito para no fallar, para encontrar la manera de seguir adelante o simplemente para no rendirme.
+
+Porque usted me transmite todo eso.
+
+Ya la tengo aburrida de decirle lo fuerte y capaz que es, pero es porque así la veo y así la percibo. Siento que, si tengo a alguien tan maravillosa apoyándome y a mi lado, soy capaz de lograr lo que sea. Si me caigo, levantarme y continuar.
+
+Por todo eso, en este día, aunque por la distancia no pude entregarle sus flores amarillas personalmente, espero que este pequeño detalle sea suficiente para demostrarle cuánto cariño le tengo y lo importante que es para mí.
+
+Lo hice con mucho cariño y, sobre todo, desde el corazón.`;
+
+        let indiceCarta = 0;
+
+        function escribirCarta() {
+            const elemento = document.getElementById("textoCarta");
+
+            if (indiceCarta < textoCarta.length) {
+                elemento.textContent += textoCarta.charAt(indiceCarta);
+                indiceCarta++;
+                setTimeout(escribirCarta, 35);
+            } else {
+                setTimeout(() => {
+                    document.getElementById("finalCarta").classList.add("mostrar");
+                }, 1000);
+            }
+        }
+
+        function volverFlores() {
+            const segundaEscena = document.getElementById("segundaEscena");
+            segundaEscena.classList.remove("mostrar");
+            setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }, 500);
+        }
+
+        function controlarMusica() {
+
+    const musica = document.getElementById("musica");
+    const boton = document.getElementById("botonMusica");
+
+    if (musica.paused) {
+
+        musica.play()
+            .then(() => {
+                boton.textContent = "🔇 Pausar";
+            })
+            .catch((error) => {
+                console.log("No se pudo reproducir la música:", error);
+                alert("No se pudo reproducir la música. Revisa que el archivo cancion.mp3 esté dentro de la carpeta musica.");
+            });
+
+    } else {
+
+        musica.pause();
+        boton.textContent = "🎵 Música";
+    }
+}
+    </script>
+</body>
+
+</html>
